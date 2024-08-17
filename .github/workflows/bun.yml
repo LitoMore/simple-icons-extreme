@@ -1,0 +1,14 @@
+name: Bun
+on: [push]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    name: Bun
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - run: bun install --frozen-lockfile
+      - run: bun run build
+      - run: bun run lint

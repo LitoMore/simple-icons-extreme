@@ -1,0 +1,45 @@
+{
+  "name": "simple-icons-extreme",
+	"version": "0.0.0",
+	"author": "LitoMore",
+	"license": "MIT",
+  "type": "module",
+	"exports": "./distribution/index.js",
+	"types": "distribution",
+	"files": [
+		"distribution"
+	],
+  "scripts": {
+		"prepublishOnly": "npm run build",
+		"prebuild": "npm run clean",
+    "build": "bun scripts/build.ts",
+		"clean": "del-cli distribution icons",
+		"lint": "xo"
+  },
+	"keywords": [
+		"svg",
+		"icons",
+		"brands",
+		"logos"
+	],
+  "devDependencies": {
+    "@types/bun": "latest",
+    "del-cli": "^5.1.0",
+    "eslint-plugin-import": "^2.29.1",
+    "simple-icons-01": "npm:simple-icons@^1.20.0",
+    "simple-icons-02": "npm:simple-icons@^2.19.0",
+    "simple-icons-03": "npm:simple-icons@^3.13.0",
+    "simple-icons-04": "npm:simple-icons@^4.25.0",
+    "simple-icons-05": "npm:simple-icons@^5.24.0",
+    "simple-icons-06": "npm:simple-icons@^6.23.0",
+    "simple-icons-07": "npm:simple-icons@^7.21.0",
+    "simple-icons-08": "npm:simple-icons@^8.15.0",
+    "simple-icons-09": "npm:simple-icons@^9.21.0",
+    "simple-icons-10": "npm:simple-icons@^10.4.0",
+    "simple-icons-11": "npm:simple-icons@^11.15.0",
+    "simple-icons-12": "npm:simple-icons@^12.4.0",
+    "simple-icons-13": "npm:simple-icons@^13.5.0",
+		"typescript": "^5.5.4",
+    "xo": "^0.59.3"
+  }
+}
