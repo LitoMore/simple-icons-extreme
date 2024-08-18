@@ -42,5 +42,6 @@
 		"simple-icons-13": "npm:simple-icons@^13.5.0",
 		"typescript": "^5.5.4",
 		"xo": "^0.59.3"
-	}
+	},
+	"packageManager": "bun"
 }
