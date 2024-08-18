@@ -88,7 +88,7 @@ console.log('Found', icons.length, 'icons.');
 console.log('\nPrevious icons summary:');
 for (const [version, slugs] of Object.entries(previousIcons)) {
 	console.log('\nPrevious version', version, 'has', slugs.length, 'icons:');
-	console.log(slugs);
+	console.log(slugs.sort());
 }
 
 const indexJs = icons
