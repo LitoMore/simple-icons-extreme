@@ -40,12 +40,13 @@ for (const slug of invalidSlugs) {
 
 const slugs = [...new Set(allSlugs.map((x) => normalizeSlug(x)))];
 const icons: Icon[] = [];
+const previousIcons: Record<string, string[]> = {};
 
 for (const slug of slugs) {
 	// eslint-disable-next-line no-await-in-loop
 	const svgFile = await file(join(svgDestination, `${slug}.svg`)).text();
 
-	for (const [, version] of versions.slice().reverse().entries()) {
+	for (const [index, version] of versions.slice().reverse().entries()) {
 		const dataJsonPath = join(
 			nodeModulesRoot,
 			version,
@@ -65,6 +66,17 @@ for (const slug of slugs) {
 				hex: foundIcon.hex,
 				svg: svgFile,
 			});
+
+			if (index > 0) {
+				const v = versions.length - index;
+				// eslint-disable-next-line max-depth
+				if (!Array.isArray(previousIcons[v])) {
+					previousIcons[v] = [];
+				}
+
+				previousIcons[v].push(slug);
+			}
+
 			break;
 		} else {
 			continue;
@@ -73,6 +85,11 @@ for (const slug of slugs) {
 }
 
 console.log('Found', icons.length, 'icons.');
+console.log('\nPrevious icons summary:');
+for (const [version, slugs] of Object.entries(previousIcons)) {
+	console.log('\nPrevious version', version, 'has', slugs.length, 'icons:');
+	console.log(slugs);
+}
 
 const indexJs = icons
 	.map(
