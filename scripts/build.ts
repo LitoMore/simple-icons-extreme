@@ -94,17 +94,17 @@ for (const [version, slugs] of Object.entries(previousIcons)) {
 const indexJs = icons
 	.map(
 		(icon) =>
-			`export const si${getExportName(icon.slug)} = ${JSON.stringify(icon)};`,
+			`export const si${getExportName(icon.slug)} = ${JSON.stringify(icon)}`,
 	)
 	.join('\n');
 await write(join(buildDestination, 'index.js'), indexJs);
 console.log('Write to index.js.');
 
 const indexDts = [
-	'export type Icon={title:string;slug:string;hex:string;svg:string};',
-	'type I=Icon;',
+	'export type Icon={title:string;slug:string;hex:string;svg:string}',
+	'type I=Icon',
 	icons
-		.map((icon) => `export const si${getExportName(icon.slug)}:I;`)
+		.map((icon) => `export const si${getExportName(icon.slug)}:I`)
 		.join('\n'),
 ].join('\n');
 await write(join(buildDestination, 'index.d.ts'), indexDts);
