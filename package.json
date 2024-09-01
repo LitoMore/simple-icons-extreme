@@ -2,6 +2,7 @@
 	"name": "simple-icons-extreme",
 	"version": "0.1.4",
 	"author": "LitoMore",
+	"repository": "https://github.com/LitoMore/simple-icons-extreme",
 	"license": "MIT",
 	"type": "module",
 	"exports": "./distribution/index.js",
