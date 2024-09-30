@@ -1,13 +1,16 @@
 import {mkdir} from 'node:fs/promises';
 import {join} from 'node:path';
-import {titleToSlug} from 'simple-icons-13/sdk';
+import {titleToSlug} from '@simple-icons/13/sdk';
 import packageJson from '../package.json';
 import type {Icon, IconJson} from './types';
-import {getExportName, normalizeSlug} from './utils';
+import {
+	getExportName,
+	normalizeSlug,
+	packagePrefix,
+	projectRoot,
+} from './utils';
 
 const svgGlob = new Bun.Glob('*.svg');
-const packagePrefix = 'simple-icons-';
-const projectRoot = join(import.meta.dirname, '..');
 const nodeModulesRoot = join(projectRoot, 'node_modules');
 const buildDestination = join(projectRoot, 'distribution');
 const svgDestination = join(projectRoot, 'icons');
