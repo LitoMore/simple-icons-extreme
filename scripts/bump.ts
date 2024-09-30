@@ -35,7 +35,9 @@ await Bun.write(
 		{...packageJson, devDependencies: newSortedDependencies},
 		null,
 		'\t',
-	),
+	) + '\n',
 );
 
-await Bun.$`bun update`.cwd(projectRoot);
+const $ = Bun.$.cwd(projectRoot);
+await $`bun update`;
+await $`bun install`;
