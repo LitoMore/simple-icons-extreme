@@ -33,16 +33,17 @@ for (const [index, version] of versions.entries()) {
 const allSlugs = [...svgGlob.scanSync(svgDestination)].map((x) =>
 	x.replace(/\.svg$/, ''),
 );
-
+const allSlugsSet = new Set(allSlugs);
 const invalidSlugs = allSlugs.filter((slug) => slug.includes('-'));
+const $ = Bun.$.cwd(svgDestination);
 for (const slug of invalidSlugs) {
 	const normalizedSlug = normalizeSlug(slug);
-	await (allSlugs.includes(normalizedSlug)
-		? Bun.$`rm '${slug}.svg'`.cwd(svgDestination)
-		: Bun.$`mv '${slug}.svg' '${normalizedSlug}.svg'`.cwd(svgDestination));
+	await (allSlugsSet.has(normalizedSlug)
+		? $`rm '${slug}.svg'`.cwd(svgDestination)
+		: $`mv '${slug}.svg' '${normalizedSlug}.svg'`.cwd(svgDestination));
 }
 
-const slugs = [...new Set(allSlugs.map((x) => normalizeSlug(x)))];
+const slugs = new Set(allSlugs.map((x) => normalizeSlug(x)));
 const icons: Icon[] = [];
 const previousIcons: Record<string, string[]> = {};
 
