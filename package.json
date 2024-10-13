@@ -38,11 +38,11 @@
 		"@simple-icons/10": "npm:simple-icons@^10.4.0",
 		"@simple-icons/11": "npm:simple-icons@^11.15.0",
 		"@simple-icons/12": "npm:simple-icons@^12.4.0",
-		"@simple-icons/13": "npm:simple-icons@^13.13.0",
+		"@simple-icons/13": "npm:simple-icons@^13.14.0",
 		"@types/bun": "latest",
 		"del-cli": "^5.1.0",
 		"eslint-plugin-import": "^2.31.0",
-		"typescript": "^5.6.2",
+		"typescript": "^5.6.3",
 		"xo": "^0.59.3"
 	},
 	"packageManager": "bun"
