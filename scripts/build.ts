@@ -1,6 +1,6 @@
 import {mkdir} from 'node:fs/promises';
 import {join} from 'node:path';
-import {titleToSlug} from '@simple-icons/13/sdk';
+import {type IconData, titleToSlug} from '@simple-icons/13/sdk';
 import packageJson from '../package.json';
 import type {Icon, IconJson} from './types';
 import {
@@ -58,8 +58,15 @@ for (const slug of slugs) {
 			'simple-icons.json',
 		);
 
-		const dataJson = (await import(dataJsonPath)) as IconJson;
-		const foundIcon = dataJson.icons.find((icon) => {
+		const versionNumber = Number(version.split('/').at(-1));
+		const isNewFormat = versionNumber >= 14;
+
+		// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+		const dataJson = await import(dataJsonPath);
+		const dataIcons = isNewFormat
+			? (dataJson.default as IconData[])
+			: (dataJson.icons as IconData[]);
+		const foundIcon = dataIcons.find((icon) => {
 			const iconSlug = icon.slug ?? titleToSlug(icon.title);
 			return iconSlug === slug;
 		});
