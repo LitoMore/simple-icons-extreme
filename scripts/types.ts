@@ -2,7 +2,7 @@ export type Icon = {
 	title: string;
 	slug: string;
 	hex: string;
-	svg: string;
+	path: string;
 };
 
 export type Icons = Record<string, Icon>;

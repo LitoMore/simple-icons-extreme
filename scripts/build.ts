@@ -1,8 +1,13 @@
 import {mkdir} from 'node:fs/promises';
 import {join} from 'node:path';
-import {type IconData, titleToSlug} from '@simple-icons/13/sdk';
+import {
+	type IconData,
+	collator,
+	svgToPath,
+	titleToSlug,
+} from '@simple-icons/latest/sdk';
 import packageJson from '../package.json';
-import type {Icon, IconJson} from './types';
+import {type Icon} from './types';
 import {
 	getExportName,
 	normalizeSlug,
@@ -16,8 +21,8 @@ const buildDestination = join(projectRoot, 'distribution');
 const svgDestination = join(projectRoot, 'icons');
 const isVerbose = Bun.argv.includes('--verbose');
 
-const versions = Object.keys(packageJson.devDependencies).filter((name) =>
-	name.startsWith(packagePrefix),
+const versions = Object.keys(packageJson.devDependencies).filter(
+	(name) => name.startsWith(packagePrefix) && !name.endsWith('latest'),
 );
 
 versions.sort((a, b) => a.localeCompare(b));
@@ -43,12 +48,15 @@ for (const slug of invalidSlugs) {
 		: $`mv '${slug}.svg' '${normalizedSlug}.svg'`.cwd(svgDestination));
 }
 
-const slugs = new Set(allSlugs.map((x) => normalizeSlug(x)));
+const slugs = new Set(
+	allSlugs.map((x) => normalizeSlug(x)).sort(collator.compare),
+);
 const icons: Icon[] = [];
 const previousIcons: Record<string, string[]> = {};
 
 for (const slug of slugs) {
 	const svgFile = await Bun.file(join(svgDestination, `${slug}.svg`)).text();
+	const svgPath = svgToPath(svgFile);
 
 	for (const [index, version] of versions.slice().reverse().entries()) {
 		const dataJsonPath = join(
@@ -75,7 +83,7 @@ for (const slug of slugs) {
 				title: foundIcon.title,
 				slug,
 				hex: foundIcon.hex,
-				svg: svgFile,
+				path: svgPath,
 			});
 
 			if (isVerbose && index > 0) {
@@ -104,17 +112,18 @@ if (isVerbose) {
 	}
 }
 
-const indexJs = icons
-	.map(
+const indexJs = [
+	`const a='<svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>',b='</title><path d="',c='"/></svg>'`,
+	...icons.map(
 		(icon) =>
-			`export const si${getExportName(icon.slug)} = ${JSON.stringify(icon)}`,
-	)
-	.join('\n');
+			`export const si${getExportName(icon.slug)}={"title":"${icon.title}","slug":"${icon.slug}","hex":"${icon.hex}","path":"${icon.path}",get svg(){return a+this.title+b+this.path+c}}`,
+	),
+].join('\n');
 await Bun.write(join(buildDestination, 'index.js'), indexJs);
 console.log('Write to index.js.');
 
 const indexDts = [
-	'export type Icon={title:string;slug:string;hex:string;svg:string}',
+	'export type Icon={title:string;slug:string;hex:string;path:string;svg:string}',
 	'type I=Icon',
 	icons
 		.map((icon) => `export const si${getExportName(icon.slug)}:I`)
@@ -122,3 +131,9 @@ const indexDts = [
 ].join('\n');
 await Bun.write(join(buildDestination, 'index.d.ts'), indexDts);
 console.log('Write to index.d.ts.');
+
+const iconsJson = JSON.stringify(
+	icons.map((icon) => ({title: icon.title, slug: icon.slug, hex: icon.hex})),
+);
+await Bun.write(join(buildDestination, 'icons.json'), iconsJson);
+console.log('Write to icons.json.');

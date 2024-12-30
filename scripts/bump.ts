@@ -18,12 +18,15 @@ const versions = Array.from({
 
 const maxLength = Math.max(...versions.map((v) => v.length));
 const currentDependencies = packageJson.devDependencies;
-const iconDependencies = Object.fromEntries(
-	versions.map((v) => [
-		packagePrefix + v.padStart(maxLength, '0'),
-		'npm:simple-icons@^' + v,
-	]),
-);
+const iconDependencies = {
+	...Object.fromEntries(
+		versions.map((v) => [
+			packagePrefix + v.padStart(maxLength, '0'),
+			'npm:simple-icons@^' + v,
+		]),
+	),
+	[packagePrefix + 'latest']: `npm:simple-icons@^${latestMajorVersion}`,
+};
 const newDependencies = {...currentDependencies, ...iconDependencies};
 const newSortedDependencies = Object.fromEntries(
 	Object.entries(newDependencies).sort(([a], [b]) => a.localeCompare(b)),

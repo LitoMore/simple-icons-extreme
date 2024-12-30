@@ -25,6 +25,10 @@ npm i simple-icons-extreme
 import { siDouban } from "simple-icons-extreme";
 ```
 
+```typescript
+import icons from "simple-icons-extreme/icons.json";
+```
+
 ## License
 
 MIT
