@@ -25,6 +25,7 @@ const iconDependencies = {
 			'npm:simple-icons@^' + v,
 		]),
 	),
+	[packagePrefix + 'extreme']: `npm:simple-icons-extreme@latest`,
 	[packagePrefix + 'latest']: `npm:simple-icons@^${latestMajorVersion}`,
 };
 const newDependencies = {...currentDependencies, ...iconDependencies};

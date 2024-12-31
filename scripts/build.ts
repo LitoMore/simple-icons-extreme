@@ -1,5 +1,6 @@
 import {mkdir} from 'node:fs/promises';
 import {join} from 'node:path';
+import * as siExtreme from '@simple-icons/extreme';
 import {
 	type IconData,
 	collator,
@@ -19,20 +20,36 @@ const svgGlob = new Bun.Glob('*.svg');
 const nodeModulesRoot = join(projectRoot, 'node_modules');
 const buildDestination = join(projectRoot, 'distribution');
 const svgDestination = join(projectRoot, 'icons');
+const isQuickBuild = Bun.argv.includes('--quick');
 const isVerbose = Bun.argv.includes('--verbose');
 
-const versions = Object.keys(packageJson.devDependencies).filter(
-	(name) => name.startsWith(packagePrefix) && !name.endsWith('latest'),
-);
+const siExtremePackageName = packagePrefix + 'extreme';
+const siLatestPackageName = packagePrefix + 'latest';
 
-versions.sort((a, b) => a.localeCompare(b));
+const versions = isQuickBuild
+	? [siExtremePackageName, siLatestPackageName]
+	: Object.keys(packageJson.devDependencies).filter(
+			(name) =>
+				name.startsWith(packagePrefix) &&
+				!name.endsWith('latest') &&
+				!name.endsWith('extreme'),
+		);
+
+if (!isQuickBuild) {
+	versions.sort((a, b) => a.localeCompare(b));
+}
 
 await mkdir(svgDestination, {recursive: true});
+
 for (const [index, version] of versions.entries()) {
 	await Bun.$`cp *.svg '${svgDestination}'`.cwd(
 		join(nodeModulesRoot, version, 'icons'),
 	);
-	console.log('Copy verseion', index + 1, 'to icons.');
+	console.log(
+		'Copied version',
+		isQuickBuild ? version : index + 1,
+		'to icons.',
+	);
 }
 
 const allSlugs = [...svgGlob.scanSync(svgDestination)].map((x) =>
@@ -62,18 +79,24 @@ for (const slug of slugs) {
 		const dataJsonPath = join(
 			nodeModulesRoot,
 			version,
-			'_data',
-			'simple-icons.json',
+			...(version === siExtremePackageName
+				? ['distribution', 'icons.json']
+				: ['_data', 'simple-icons.json']),
 		);
 
-		const versionNumber = Number(version.split('/').at(-1));
-		const isNewFormat = versionNumber >= 14;
-
 		// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-		const dataJson = await import(dataJsonPath);
-		const dataIcons = isNewFormat
-			? (dataJson.default as IconData[])
-			: (dataJson.icons as IconData[]);
+		const dataJson = await import(dataJsonPath).catch(() => {
+			if (version === siExtremePackageName) {
+				return Object.values(siExtreme).map((icon) => ({
+					title: icon.title,
+					slug: icon.slug,
+					hex: icon.hex,
+				}));
+			}
+		});
+		const dataIcons = (dataJson.icons ??
+			dataJson.default ??
+			dataJson) as IconData[];
 		const foundIcon = dataIcons.find((icon) => {
 			const iconSlug = icon.slug ?? titleToSlug(icon.title);
 			return iconSlug === slug;
