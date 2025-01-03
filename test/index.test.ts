@@ -14,9 +14,14 @@ const allIcons = Object.entries(icons);
 
 test('JSON content has the same count as SVG slugs', () => {
 	expect(allIcons.length).toBe(slugsSet.size);
-	for (const [key, icon] of allIcons) {
-		expect(slugsSet.has(key.slice(2).toLowerCase())).toBe(true);
-	}
+	expect(
+		allIcons
+			.map(([key]) => key.slice(2).toLowerCase())
+			.every((slug) => slugsSet.has(slug)),
+	).toBe(true);
+	expect(
+		iconsJson.map((icon) => icon.slug).every((slug) => slugsSet.has(slug)),
+	).toBe(true);
 });
 
 test('All path are valid', () => {
