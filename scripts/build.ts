@@ -4,8 +4,8 @@ import * as siExtreme from '@simple-icons/extreme';
 import {
 	type IconData,
 	collator,
+	getIconSlug,
 	svgToPath,
-	titleToSlug,
 } from '@simple-icons/latest/sdk';
 import packageJson from '../package.json';
 import {type Icon} from './types';
@@ -98,7 +98,7 @@ for (const slug of slugs) {
 			dataJson.default ??
 			dataJson) as IconData[];
 		const foundIcon = dataIcons.find((icon) => {
-			const iconSlug = icon.slug ?? titleToSlug(icon.title);
+			const iconSlug = getIconSlug(icon);
 			return iconSlug === slug;
 		});
 		if (foundIcon) {
