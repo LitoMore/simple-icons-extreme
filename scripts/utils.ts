@@ -12,6 +12,8 @@ export const getExportName = (slug: string) =>
 	(slug.at(0) ?? '').toUpperCase() + slug.slice(1);
 
 export const renderProgress = (total: number, current: number) => {
+	if (!process.stdout.isTTY) return;
+
 	readline.cursorTo(process.stdout, 0);
 	readline.clearLine(process.stdout, 0);
 	const left = total - current;
