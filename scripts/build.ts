@@ -14,28 +14,29 @@ import {
 	normalizeSlug,
 	packagePrefix,
 	projectRoot,
+	renderProgress,
 } from './utils';
 
 const svgGlob = new Bun.Glob('*.svg');
 const nodeModulesRoot = join(projectRoot, 'node_modules');
 const buildDestination = join(projectRoot, 'distribution');
 const svgDestination = join(projectRoot, 'icons');
-const isQuickBuild = Bun.argv.includes('--quick');
+const isFullBuild = Bun.argv.includes('--full-build');
 const isVerbose = Bun.argv.includes('--verbose');
 
 const siExtremePackageName = packagePrefix + 'extreme';
 const siLatestPackageName = packagePrefix + 'latest';
 
-const versions = isQuickBuild
-	? [siExtremePackageName, siLatestPackageName]
-	: Object.keys(packageJson.devDependencies).filter(
+const versions = isFullBuild
+	? Object.keys(packageJson.devDependencies).filter(
 			(name) =>
 				name.startsWith(packagePrefix) &&
 				!name.endsWith('latest') &&
 				!name.endsWith('extreme'),
-		);
+		)
+	: [siExtremePackageName, siLatestPackageName];
 
-if (!isQuickBuild) {
+if (isFullBuild) {
 	versions.sort((a, b) => a.localeCompare(b));
 }
 
@@ -45,11 +46,7 @@ for (const [index, version] of versions.entries()) {
 	await Bun.$`cp *.svg '${svgDestination}'`.cwd(
 		join(nodeModulesRoot, version, 'icons'),
 	);
-	console.log(
-		'Copied version',
-		isQuickBuild ? version : index + 1,
-		'to icons.',
-	);
+	console.log('Copied version', isFullBuild ? index + 1 : version, 'to icons.');
 }
 
 const allSlugs = [...svgGlob.scanSync(svgDestination)].map((x) =>
@@ -71,7 +68,10 @@ const slugs = new Set(
 const icons: Icon[] = [];
 const previousIcons: Record<string, string[]> = {};
 
+let currentCount = 0;
 for (const slug of slugs) {
+	renderProgress(slugs.size, icons.length);
+	currentCount++;
 	const svgFile = await Bun.file(join(svgDestination, `${slug}.svg`)).text();
 	const svgPath = svgToPath(svgFile);
 
@@ -143,7 +143,7 @@ const indexJs = [
 	),
 ].join('\n');
 await Bun.write(join(buildDestination, 'index.js'), indexJs);
-console.log('Write to index.js.');
+console.log('Write to index.js...');
 
 const indexDts = [
 	'export type Icon={title:string;slug:string;hex:string;path:string;svg:string}',
@@ -153,10 +153,12 @@ const indexDts = [
 		.join('\n'),
 ].join('\n');
 await Bun.write(join(buildDestination, 'index.d.ts'), indexDts);
-console.log('Write to index.d.ts.');
+console.log('Write to index.d.ts...');
 
 const iconsJson = JSON.stringify(
 	icons.map((icon) => ({title: icon.title, slug: icon.slug, hex: icon.hex})),
 );
 await Bun.write(join(buildDestination, 'icons.json'), iconsJson);
-console.log('Write to icons.json.');
+console.log('write to icons.json...');
+
+console.log('Done.');

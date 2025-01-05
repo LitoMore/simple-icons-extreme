@@ -100,7 +100,7 @@
 
     "@simple-icons/14": ["simple-icons@14.1.0", "", {}, "sha512-4/jkVUqhNpsyx0nqYe4QvBkg6NSxdnOnfs6AfFC5IiFsIqrE7YQveLPrbdEh40PZjEQZ20RG8HKbRjEcigJbPg=="],
 
-    "@simple-icons/extreme": ["simple-icons-extreme@0.1.21", "", {}, "sha512-pJSpH0kl/ZZX7Vhr3Dgax97PHChKVEymhln/ZVaqReXzBpsoGTJCK2spHMY6cZ6bgI6trjBIJv8HEPB29MkZJQ=="],
+    "@simple-icons/extreme": ["simple-icons-extreme@0.2.0", "", {}, "sha512-KUzDEG7OFIJ21tlDGfKQQzQIDbDoUuxjbA4Ohe3OX++RWFkF3LKex/euOC6O9IWDgYqIfSdik91zBTH0dP6pYg=="],
 
     "@simple-icons/latest": ["simple-icons@14.1.0", "", {}, "sha512-4/jkVUqhNpsyx0nqYe4QvBkg6NSxdnOnfs6AfFC5IiFsIqrE7YQveLPrbdEh40PZjEQZ20RG8HKbRjEcigJbPg=="],
 
