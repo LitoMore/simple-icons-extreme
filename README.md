@@ -9,8 +9,7 @@ The Simple Icons collection includes previous versions
 ## Disclaimer
 
 > [!IMPORTANT]\
-> Please do not use the package on production. You should consider using [Simple Icons](https://github.com/simple-icons/simple-icons) instead.
->
+> Please do not use the package on production. You should consider using [Simple Icons](https://github.com/simple-icons/simple-icons) instead.\
 > We also ask that all users read our [legal disclaimer](https://github.com/simple-icons/simple-icons/blob/develop/DISCLAIMER.md) before using icons from Simple Icons.
 
 ## Install
