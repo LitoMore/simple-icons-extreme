@@ -48,7 +48,7 @@
 		"@types/bun": "latest",
 		"del-cli": "^6.0.0",
 		"eslint-plugin-import": "^2.31.0",
-		"typescript": "^5.7.2",
+		"typescript": "^5.7.3",
 		"xo": "^0.60.0"
 	},
 	"packageManager": "bun"
