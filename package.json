@@ -42,13 +42,13 @@
 		"@simple-icons/11": "npm:simple-icons@^11.15.0",
 		"@simple-icons/12": "npm:simple-icons@^12.4.0",
 		"@simple-icons/13": "npm:simple-icons@^13.21.0",
-		"@simple-icons/14": "npm:simple-icons@^14.8.0",
+		"@simple-icons/14": "npm:simple-icons@^14.9.0",
 		"@simple-icons/extreme": "npm:simple-icons-extreme@latest",
-		"@simple-icons/latest": "npm:simple-icons@^14.8.0",
+		"@simple-icons/latest": "npm:simple-icons@^14.9.0",
 		"@types/bun": "latest",
 		"del-cli": "^6.0.0",
 		"eslint-plugin-import": "^2.31.0",
-		"typescript": "^5.7.3",
+		"typescript": "^5.8.2",
 		"xo": "^0.60.0"
 	},
 	"packageManager": "bun"
