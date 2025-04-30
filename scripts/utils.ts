@@ -22,3 +22,14 @@ export const renderProgress = (total: number, current: number) => {
 		process.stdout.write(`Progress: ${progress}%`);
 	}
 };
+
+export const titleToHtmlFriendly = (brandTitle: string) =>
+	brandTitle
+		.replaceAll('&', '&amp;')
+		.replaceAll('"', '&quot;')
+		.replaceAll('<', '&lt;')
+		.replaceAll('>', '&gt;')
+		.replaceAll(/./g, (char) => {
+			const charCode = char.codePointAt(0) ?? 0;
+			return charCode > 127 ? `&#${charCode};` : char;
+		});

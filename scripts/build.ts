@@ -15,6 +15,7 @@ import {
 	packagePrefix,
 	projectRoot,
 	renderProgress,
+	titleToHtmlFriendly,
 } from './utils';
 
 const svgGlob = new Bun.Glob('*.svg');
@@ -137,10 +138,11 @@ if (isVerbose) {
 
 const indexJs = [
 	`const a='<svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>',b='</title><path d="',c='"/></svg>'`,
-	...icons.map(
-		(icon) =>
-			`export const si${getExportName(icon.slug)}={"title":"${icon.title}","slug":"${icon.slug}","hex":"${icon.hex}","path":"${icon.path}",get svg(){return a+this.title+b+this.path+c}}`,
-	),
+	...icons.map((icon) => {
+		const friendlyTitle = titleToHtmlFriendly(icon.title);
+		const hasSpecialChars = friendlyTitle !== icon.title;
+		return `export const si${getExportName(icon.slug)}={"title":"${icon.title}","slug":"${icon.slug}","hex":"${icon.hex}","path":"${icon.path}",get svg(){return a+${hasSpecialChars ? `"${friendlyTitle}"` : 'this.title'}+b+this.path+c}}`;
+	}),
 ].join('\n');
 await Bun.write(join(buildDestination, 'index.js'), indexJs);
 console.log('Write to index.js...');
