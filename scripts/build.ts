@@ -1,5 +1,5 @@
-import {mkdir} from 'node:fs/promises';
-import {join} from 'node:path';
+import fs from 'node:fs/promises';
+import path from 'node:path';
 import * as siExtreme from '@simple-icons/extreme';
 import {
 	type IconData,
@@ -19,9 +19,9 @@ import {
 } from './utils';
 
 const svgGlob = new Bun.Glob('*.svg');
-const nodeModulesRoot = join(projectRoot, 'node_modules');
-const buildDestination = join(projectRoot, 'distribution');
-const svgDestination = join(projectRoot, 'icons');
+const nodeModulesRoot = path.join(projectRoot, 'node_modules');
+const buildDestination = path.join(projectRoot, 'distribution');
+const svgDestination = path.join(projectRoot, 'icons');
 const isFullBuild = Bun.argv.includes('--full-build');
 const isVerbose = Bun.argv.includes('--verbose');
 
@@ -41,11 +41,11 @@ if (isFullBuild) {
 	versions.sort((a, b) => a.localeCompare(b));
 }
 
-await mkdir(svgDestination, {recursive: true});
+await fs.mkdir(svgDestination, {recursive: true});
 
 for (const [index, version] of versions.entries()) {
 	await Bun.$`cp *.svg '${svgDestination}'`.cwd(
-		join(nodeModulesRoot, version, 'icons'),
+		path.join(nodeModulesRoot, version, 'icons'),
 	);
 	console.log('Copied version', isFullBuild ? index + 1 : version, 'to icons.');
 }
@@ -73,19 +73,27 @@ let currentCount = 0;
 for (const slug of slugs) {
 	renderProgress(slugs.size, icons.length);
 	currentCount++;
-	const svgFile = await Bun.file(join(svgDestination, `${slug}.svg`)).text();
+	const svgFile = await Bun.file(
+		path.join(svgDestination, `${slug}.svg`),
+	).text();
 	const svgPath = svgToPath(svgFile);
 
-	for (const [index, version] of versions.slice().reverse().entries()) {
-		const dataJsonPath = join(
+	for (const [index, version] of [...versions].reverse().entries()) {
+		const packageJsonPath = path.join(nodeModulesRoot, version, 'package.json');
+		const packageJson = JSON.parse(await Bun.file(packageJsonPath).text()) as {
+			version: string;
+		};
+		const [major] = packageJson.version.split('.');
+
+		const dataJsonPath = path.join(
 			nodeModulesRoot,
 			version,
 			...(version === siExtremePackageName
 				? ['distribution', 'icons.json']
-				: ['_data', 'simple-icons.json']),
+				: [Number(major) >= 15 ? 'data' : '_data', 'simple-icons.json']),
 		);
 
-		// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+		// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, promise/prefer-await-to-then
 		const dataJson = await import(dataJsonPath).catch(() => {
 			if (version === siExtremePackageName) {
 				return Object.values(siExtreme).map((icon) => ({
@@ -144,7 +152,7 @@ const indexJs = [
 		return `export const si${getExportName(icon.slug)}={"title":"${icon.title}","slug":"${icon.slug}","hex":"${icon.hex}","path":"${icon.path}",get svg(){return a+${hasSpecialChars ? `"${friendlyTitle}"` : 'this.title'}+b+this.path+c}}`;
 	}),
 ].join('\n');
-await Bun.write(join(buildDestination, 'index.js'), indexJs);
+await Bun.write(path.join(buildDestination, 'index.js'), indexJs);
 console.log('Write to index.js...');
 
 const indexDts = [
@@ -154,13 +162,13 @@ const indexDts = [
 		.map((icon) => `export const si${getExportName(icon.slug)}:I`)
 		.join('\n'),
 ].join('\n');
-await Bun.write(join(buildDestination, 'index.d.ts'), indexDts);
+await Bun.write(path.join(buildDestination, 'index.d.ts'), indexDts);
 console.log('Write to index.d.ts...');
 
 const iconsJson = JSON.stringify(
 	icons.map((icon) => ({title: icon.title, slug: icon.slug, hex: icon.hex})),
 );
-await Bun.write(join(buildDestination, 'icons.json'), iconsJson);
+await Bun.write(path.join(buildDestination, 'icons.json'), iconsJson);
 console.log('write to icons.json...');
 
 console.log('Done.');

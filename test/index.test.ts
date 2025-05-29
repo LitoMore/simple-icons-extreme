@@ -30,5 +30,5 @@ test('All path are valid', () => {
 
 test('All icons are in JSON with correct order', () => {
 	expect(iconsJson.length).toBe(slugsSet.size);
-	expect(iconsJson.map((icon) => icon.slug)).toEqual(slugsArray.slice());
+	expect(iconsJson.map((icon) => icon.slug)).toEqual([...slugsArray]);
 });

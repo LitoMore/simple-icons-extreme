@@ -47,9 +47,9 @@
 		"@simple-icons/latest": "npm:simple-icons@^14.15.0",
 		"@types/bun": "latest",
 		"del-cli": "^6.0.0",
-		"eslint-plugin-import": "^2.31.0",
+		"eslint-plugin-import-x": "^4.13.3",
 		"typescript": "^5.8.3",
-		"xo": "^0.60.0"
+		"xo": "^1.0.0"
 	},
 	"packageManager": "bun"
 }
