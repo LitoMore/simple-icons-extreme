@@ -43,10 +43,15 @@ if (isFullBuild) {
 
 await fs.mkdir(svgDestination, {recursive: true});
 
-for (const [index, version] of versions.entries()) {
-	await Bun.$`cp *.svg '${svgDestination}'`.cwd(
-		path.join(nodeModulesRoot, version, 'icons'),
-	);
+const copiedSlugs = new Set<string>();
+
+for (const [index, version] of versions.toReversed().entries()) {
+	try {
+		await Bun.$`cp -n *.svg '${svgDestination}'`.cwd(
+			path.join(nodeModulesRoot, version, 'icons'),
+		);
+	} catch {}
+
 	console.log('Copied version', isFullBuild ? index + 1 : version, 'to icons.');
 }
 
@@ -78,7 +83,7 @@ for (const slug of slugs) {
 	).text();
 	const svgPath = svgToPath(svgFile);
 
-	for (const [index, version] of [...versions].reverse().entries()) {
+	for (const [index, version] of versions.toReversed().entries()) {
 		const packageJsonPath = path.join(nodeModulesRoot, version, 'package.json');
 		const packageJson = JSON.parse(await Bun.file(packageJsonPath).text()) as {
 			version: string;
