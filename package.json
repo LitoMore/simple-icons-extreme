@@ -5,11 +5,17 @@
 	"repository": "https://github.com/LitoMore/simple-icons-extreme",
 	"license": "MIT",
 	"type": "module",
-	"exports": {
-		".": "./distribution/index.js",
-		"./icons.json": "./distribution/icons.json"
-	},
 	"types": "distribution",
+	"exports": {
+		".": {
+			"types": "./distribution/index.d.ts",
+			"import": "./distribution/index.js"
+		},
+		"./icons.json": {
+			"types": "./distribution/icons.d.ts",
+			"import": "./distribution/icons.json"
+		}
+	},
 	"files": [
 		"distribution",
 		"icons"
