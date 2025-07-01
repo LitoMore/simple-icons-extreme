@@ -177,9 +177,10 @@ await Bun.write(path.join(buildDestination, 'icons.json'), iconsJson);
 console.log('write to icons.json...');
 
 const iconsJsonDts = `declare type Icon = {title: string; slug: string; hex: string};
-type Icons = Icon[];
-export default Icons;
-export = Icons;`;
+declare const icons: Icon[];
+export default icons;
+export = icons;
+`;
 await Bun.write(path.join(buildDestination, 'icons.d.ts'), iconsJsonDts);
 console.log('Write to icons.d.ts...');
 
