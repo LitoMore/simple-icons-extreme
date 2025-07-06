@@ -1,12 +1,8 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import * as siExtreme from '@simple-icons/extreme';
-import {
-	type IconData,
-	collator,
-	getIconSlug,
-	svgToPath,
-} from '@simple-icons/latest/sdk';
+import type {IconData} from '@simple-icons/latest/icons.json';
+import {collator, getIconSlug, svgToPath} from '@simple-icons/latest/sdk';
 import packageJson from '../package.json';
 import {type Icon} from './types';
 import {
