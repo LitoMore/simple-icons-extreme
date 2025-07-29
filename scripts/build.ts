@@ -39,8 +39,6 @@ if (isFullBuild) {
 
 await fs.mkdir(svgDestination, {recursive: true});
 
-const copiedSlugs = new Set<string>();
-
 for (const [index, version] of versions.toReversed().entries()) {
 	try {
 		await Bun.$`cp -n *.svg '${svgDestination}'`.cwd(
