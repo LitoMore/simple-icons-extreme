@@ -1,10 +1,6 @@
-import {importX} from 'eslint-plugin-import-x';
-
 const xoConfig = [
 	{
 		prettier: true,
-		plugins: [{'import-x': importX}],
-		ignores: ['distribution'],
 		rules: {
 			'no-await-in-loop': 'off',
 			'n/file-extension-in-import': 'off',
