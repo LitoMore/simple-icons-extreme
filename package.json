@@ -55,7 +55,7 @@
 		"@types/bun": "latest",
 		"del-cli": "^6.0.0",
 		"typescript": "^5.9.3",
-		"xo": "^1.2.2"
+		"xo": "^1.2.3"
 	},
 	"packageManager": "bun"
 }
