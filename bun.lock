@@ -19,8 +19,9 @@
         "@simple-icons/13": "npm:simple-icons@^13.21.0",
         "@simple-icons/14": "npm:simple-icons@^14.15.0",
         "@simple-icons/15": "npm:simple-icons@^15.22.0",
+        "@simple-icons/16": "npm:simple-icons@^16.0.0",
         "@simple-icons/extreme": "npm:simple-icons-extreme@latest",
-        "@simple-icons/latest": "npm:simple-icons@^15.22.0",
+        "@simple-icons/latest": "npm:simple-icons@^16.0.0",
         "@types/bun": "latest",
         "del-cli": "^6.0.0",
         "typescript": "^5.9.3",
@@ -111,9 +112,11 @@
 
     "@simple-icons/15": ["simple-icons@15.22.0", "", {}, "sha512-i/w5Ie4tENfGYbdCo2iJ+oies0vOFd8QXWHopKOUzudfLCvnmeheF2PpHp89Z2azpc+c2su3lMiWO/SpP+429A=="],
 
-    "@simple-icons/extreme": ["simple-icons-extreme@0.2.41", "", {}, "sha512-XeiZuqQWH7qmneOZPQ2Or+bx297KY9arAPdODe+ewOAM6ew38Rh2kKxNb02UMDDgPx1yKujqaAu19hWDS7iHsw=="],
+    "@simple-icons/16": ["simple-icons@16.0.0", "", {}, "sha512-FPA/dxEy0dfXplKhPhqFI6KoPKAhe7t75emZ5i1T1vmqCYwboCqVNezRWaMmPkBazpHKmMAnaUYxoYsfRoDnZQ=="],
 
-    "@simple-icons/latest": ["simple-icons@15.22.0", "", {}, "sha512-i/w5Ie4tENfGYbdCo2iJ+oies0vOFd8QXWHopKOUzudfLCvnmeheF2PpHp89Z2azpc+c2su3lMiWO/SpP+429A=="],
+    "@simple-icons/extreme": ["simple-icons-extreme@0.2.42", "", {}, "sha512-4L96D9/ixJTma7EwtdExp2BW7gqY/j0cGFQjrQt0plXh1cHdJmbxOJTxh5xeowqclWQi7QYQfBv1OPOshrYF9Q=="],
+
+    "@simple-icons/latest": ["simple-icons@16.0.0", "", {}, "sha512-FPA/dxEy0dfXplKhPhqFI6KoPKAhe7t75emZ5i1T1vmqCYwboCqVNezRWaMmPkBazpHKmMAnaUYxoYsfRoDnZQ=="],
 
     "@sindresorhus/merge-streams": ["@sindresorhus/merge-streams@2.3.0", "", {}, "sha512-LtoMMhxAlorcGhmFYI+LhPgbPZCkgP6ra1YL604EeF6U98pLlQ3iWIGMdWSC+vWmPBWBNgmDBAhnAobLROJmwg=="],
 
