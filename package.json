@@ -21,8 +21,8 @@
 		"icons"
 	],
 	"scripts": {
-		"prepublishOnly": "npm run build",
-		"prebuild": "npm run clean",
+		"prepublishOnly": "bun run build",
+		"prebuild": "bun run clean",
 		"build": "bun scripts/build.ts",
 		"bump": "bun scripts/bump.ts",
 		"clean": "del-cli distribution icons",
