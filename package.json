@@ -11,6 +11,9 @@
 			"types": "./distribution/index.d.ts",
 			"import": "./distribution/index.js"
 		},
+		"./icons/*": [
+			"./icons/*"
+		],
 		"./icons.json": {
 			"types": "./distribution/icons.d.ts",
 			"import": "./distribution/icons.json"
