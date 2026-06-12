@@ -25,6 +25,10 @@ import { siDouban } from "simple-icons-extreme";
 ```
 
 ```typescript
+import LinkedIn from "simple-icons-extreme/icons/linkedin.svg";
+```
+
+```typescript
 import icons from "simple-icons-extreme/icons.json";
 ```
 
